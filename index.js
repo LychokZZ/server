@@ -7,7 +7,7 @@ const router = require('./authRouter');
 
 const app =express()
 
-
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.use(express.json());
 app.use(cors({
     credentials: true,
