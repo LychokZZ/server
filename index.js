@@ -11,7 +11,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:3000"
+    origin: '*'
 }
 ));
 app.use('/auth' ,router)
@@ -19,7 +19,7 @@ app.use('/auth' ,router)
 const start = async () => {
     try {
         await mongoose.connect(`mongodb+srv://admin:admin@clus.qrigh.mongodb.net/?retryWrites=true&w=majority&appName=Clus`)
-        app.listen(PORT, () => console.log(`Server start ${PORT}`))
+        app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
     }catch(e){
         console.log(e)
     }
