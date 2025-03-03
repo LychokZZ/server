@@ -3,7 +3,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 5001
 const mongoose = require('mongoose');
 const router = require('./authRouter');
-const os = require('os');
+const app = express();
 
 const allowedOrigins = ["http://localhost:3000", "https://lychokzz.github.io"];
 const corsOptions = {
