@@ -8,9 +8,11 @@ const os = require('os');
 const app =express()
 
 app.use(express.json());
+const allowedOrigins = ["http://localhost:3000", "https://lychokzz.github.io/Luchkovski/"];
 app.use(cors({
+    origin: allowedOrigins
     credentials: true,
-    origin: '*'
+    
 }
 ));
 app.use('/auth' ,router)
