@@ -23,6 +23,23 @@ class authController{
             res.status(400).json({message: "Registration error"})
         }
     }
+    async login(req, res){
+        try{
+            const {username , password} = req.body
+            const user = await User.findOne({username})
+            if(!user){
+                return res.status(400).json({message: `Користувача ${username} не найдено!`})
+            }
+            const passwordValid = await User.findOne({password})
+            if(!passwordValid){
+                return res.status(400).json({message: 'Парольне не правильний'})
+            }
+            return res.json({message: "Sucessful"}) 
+        }catch(e){
+            console.log(e)
+            res.status(400).json({message: "Login error"})
+        }
+    }
 
     async sendLetter(req, res){
         try{
