@@ -5,17 +5,13 @@ class authController{
 
     async registation(req, res){
         try{
-            const {username , password, email} = req.body
-            console.log(username , password, email)
+            const {username , password} = req.body
+            console.log(username , password)
             const candidat = await User.findOne({username})
             if(candidat){
                 return res.status(400).json({message: "Імя зайняте"})
             }
-            const emails = await User.findOne({email})
-            if(emails){
-                return res.status(400).json({message: "Пошта зайнята"})
-            }
-            const user = new User({username, password, email})
+            const user = new User({username, password})
             await user.save() 
             return res.json({message: "Sucessful"}) 
         }catch(e){
