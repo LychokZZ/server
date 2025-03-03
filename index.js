@@ -7,7 +7,10 @@ const os = require('os');
 
 const app =express()
 
-app.get('/favicon.ico', (req, res) => res.status(204));
+app.get("/auth/getcontact", (req, res) => {
+    const user = req.query.user;
+    res.json({ message: `Контакты для пользователя: ${user}` });
+});
 app.use(express.json());
 app.use(cors({
     credentials: true,
