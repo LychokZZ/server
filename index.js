@@ -6,11 +6,13 @@ const router = require('./authRouter');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// Дозволені домени
 const allowedOrigins = ["http://localhost:3000", "https://lychokzz.github.io"];
 
+// Налаштування CORS
 const corsOptions = {
     origin: function (origin, callback) {
-        if (allowedOrigins.includes(origin) || !origin) {
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
@@ -19,25 +21,27 @@ const corsOptions = {
     credentials: true
 };
 
-
+// Використання CORS
 app.use(cors(corsOptions));
 
-// Обробляємо preflight-запити (OPTIONS)
-app.options('*', cors(corsOptions));
-
-app.use(express.json());
-
-// Глобальні CORS-заголовки
+// Глобальні заголовки для всіх запитів
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200); // Важливо для preflight-запитів
+    }
+
     next();
 });
 
+// Використання роутера
 app.use('/auth', router);
 
+// Запуск сервера
 const start = async () => {
     try {
         await mongoose.connect(`mongodb+srv://admin:admin@clus.qrigh.mongodb.net/?retryWrites=true&w=majority&appName=Clus`);
@@ -49,3 +53,5 @@ const start = async () => {
 
 start();
 
+// Експортуємо сервер для Vercel
+module.exports = app;
