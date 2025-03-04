@@ -19,7 +19,7 @@ const corsOptions = {
     credentials: true
 };
 
-// Додаємо CORS
+
 app.use(cors(corsOptions));
 
 // Обробляємо preflight-запити (OPTIONS)
