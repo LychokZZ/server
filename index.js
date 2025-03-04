@@ -27,6 +27,8 @@ const corsOptions = {
 // Використовуємо CORS
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use('/auth' ,router)
+
 
 // Підключення до MongoDB (якщо потрібно)
 const start = async () => {
