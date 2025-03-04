@@ -1,57 +1,44 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const router = require('./authRouter');
-
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Дозволені домени
-const allowedOrigins = ["http://localhost:3000", "https://lychokzz.github.io"];
+// Список дозволених доменів для CORS
+const allowedOrigins = [
+  "http://localhost:3000", // локальний розробник
+  "https://lychokzz.github.io", // інший домен
+  "https://server-eight-lac-10.vercel.app", // перший домен
+  "https://server-lychokzzs-projects.vercel.app" // другий домен
+];
 
 // Налаштування CORS
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 };
 
-// Використання CORS
+// Використовуємо CORS
 app.use(cors(corsOptions));
+app.use(express.json());
 
-// Глобальні заголовки для всіх запитів
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(200); // Важливо для preflight-запитів
-    }
-
-    next();
-});
-
-// Використання роутера
-app.use('/auth', router);
-
-// Запуск сервера
+// Підключення до MongoDB (якщо потрібно)
 const start = async () => {
-    try {
-        await mongoose.connect(`mongodb+srv://admin:admin@clus.qrigh.mongodb.net/?retryWrites=true&w=majority&appName=Clus`);
-        app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    await mongoose.connect('mongodb+srv://admin:admin@clus.qrigh.mongodb.net/?retryWrites=true&w=majority&appName=Clus');
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (e) {
+    console.log('Error while connecting to the database: ', e);
+  }
 };
 
 start();
 
-// Експортуємо сервер для Vercel
+// Експортуємо app для використання в Vercel
 module.exports = app;
