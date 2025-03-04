@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 5001;
+const router = require('./authRouter');
+
 
 // Список дозволених доменів для CORS
 const allowedOrigins = [
