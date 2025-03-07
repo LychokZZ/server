@@ -6,15 +6,12 @@ const PORT = process.env.PORT || 5000;
 const router = require('./authRouter');
 
 
-// Список дозволених доменів для CORS
 const allowedOrigins = [
-  "http://localhost:3000", // локальний розробник
-  "https://lychokzz.github.io", // інший домен
-  "https://server-eight-lac-10.vercel.app", // перший домен
-  "https://server-lychokzzs-projects.vercel.app" // другий домен
+  "http://localhost:3000", // github.io",
+  "https://server-eight-lac-10.vercel.
+  "https://server-lychokzzs-projects.vercel.app"
 ];
 
-// Налаштування CORS
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -26,7 +23,7 @@ const corsOptions = {
   credentials: true
 };
 
-// Використовуємо CORS
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth' ,router)
@@ -38,7 +35,7 @@ app.use((req, res, next) => {
 });
 
 
-// Підключення до MongoDB (якщо потрібно)
+
 const start = async () => {
   try {
     await mongoose.connect('mongodb+srv://admin:admin@clus.qrigh.mongodb.net/?retryWrites=true&w=majority&appName=Clus');
@@ -50,5 +47,5 @@ const start = async () => {
 
 start();
 
-// Експортуємо app для використання в Vercel
+
 module.exports = app;
