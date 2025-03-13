@@ -7,9 +7,10 @@ const router = require('./authRouter');
 
 
 const allowedOrigins = [
-  "http://localhost:3000", // github.io",
-  "https://server-eight-lac-10.vercel.com,
-  "https://server-lychokzzs-projects.vercel.app"
+   "http://localhost:3000", 
+   "https://lychokzz.github.io", 
+   "https://server-eight-lac-10.vercel.app",
+   "https://server-lychokzzs-projects.vercel.app"
 ];
 
 const corsOptions = {
