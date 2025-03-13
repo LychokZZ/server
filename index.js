@@ -8,7 +8,7 @@ const router = require('./authRouter');
 
 const allowedOrigins = [
   "http://localhost:3000", // github.io",
-  "https://server-eight-lac-10.vercel.
+  "https://server-eight-lac-10.vercel.com,
   "https://server-lychokzzs-projects.vercel.app"
 ];
 
